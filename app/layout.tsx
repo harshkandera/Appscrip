@@ -29,10 +29,12 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
-        <link
+
+        {/* <link
           href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Inter:wght@400;500;600;700&display=swap"
           rel="stylesheet"
-        />
+        /> */}
+        
         <meta name="theme-color" content="#000000" />
       </head>
       <body>{children}</body>
