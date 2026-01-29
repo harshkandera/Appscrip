@@ -6,8 +6,11 @@ import styles from "../styles/ProductGrid.module.css";
 async function getProducts() {
   try {
     const response = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store",
-      next: { revalidate: 0 },
+      next: { revalidate: 3600 },
+      headers: {
+        "User-Agent": "Mozilla/5.0 (compatible; NextJS App)",
+        Accept: "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -21,7 +24,6 @@ async function getProducts() {
     return [];
   }
 }
-
 
 function generateJsonLd(products) {
   if (!products || products.length === 0) return null;
