@@ -4,19 +4,27 @@ import ProductGrid from "../components/ProductGrid";
 import styles from "../styles/ProductGrid.module.css";
 
 async function getProducts() {
+  try {
+    const response = await fetch("https://fakestoreapi.com/products", {
+      cache: "no-store",
+      next: { revalidate: 0 },
+    });
 
-  const response = await fetch("https://fakestoreapi.com/products", {
-    cache: "no-store",
-  });
+    if (!response.ok) {
+      console.error("API response not ok:", response.status);
+      return [];
+    }
 
-  if (!response.ok) {
-    throw new Error("Failed to fetch products");
+    return response.json();
+  } catch (error) {
+    console.error("Failed to fetch products:", error);
+    return [];
   }
-
-  return response.json();
 }
 
 function generateJsonLd(products) {
+  if (!products || products.length === 0) return null;
+
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -49,17 +57,18 @@ export default async function HomePage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
-      />
+      {jsonLdSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdSchema) }}
+        />
+      )}
 
       <Header />
 
       <main>
         <section className={styles.hero}>
           <div className={styles.container}>
-            
             <h1 className={styles.heroTitle}>Discover Our Products</h1>
             <p className={styles.heroDescription}>
               Lorem ipsum dolor sit amet consectetur. Amet est posuere rhoncus
