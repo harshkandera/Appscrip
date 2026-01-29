@@ -104,11 +104,16 @@ const filterCategories = [
   },
 ];
 
-export default function FilterSidebar({ isOpen, onClose }) {
+export default function FilterSidebar({
+  isOpen,
+  onClose,
+  isMobileOnly = false,
+}) {
   const [expandedCategories, setExpandedCategories] = useState([
     "customizable",
     "ideal-for",
   ]);
+
   const [selectedFilters, setSelectedFilters] = useState({});
 
   const toggleCategory = (categoryId) => {
@@ -184,34 +189,38 @@ export default function FilterSidebar({ isOpen, onClose }) {
     );
   };
 
+  if (isMobileOnly) {
+    return (
+      <>
+        <div
+          className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
+          onClick={onClose}
+          aria-hidden="true"
+        />
+
+        <aside
+          className={`${styles.mobileSidebar} ${isOpen ? styles.open : ""}`}
+          aria-label="Product filters"
+        >
+          <div className={styles.mobileHeader}>
+            <span className={styles.mobileTitle}>Filters</span>
+            <button
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label="Close filters"
+            >
+              <CloseIcon />
+            </button>
+          </div>
+          {filterCategories.map(renderFilterSection)}
+        </aside>
+      </>
+    );
+  }
+
   return (
-    <>
-      <aside className={styles.sidebar} aria-label="Product filters">
-        {filterCategories.map(renderFilterSection)}
-      </aside>
-
-      <div
-        className={`${styles.overlay} ${isOpen ? styles.open : ""}`}
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      <aside
-        className={`${styles.mobileSidebar} ${isOpen ? styles.open : ""}`}
-        aria-label="Product filters"
-      >
-        <div className={styles.mobileHeader}>
-          <span className={styles.mobileTitle}>Filters</span>
-          <button
-            className={styles.closeButton}
-            onClick={onClose}
-            aria-label="Close filters"
-          >
-            <CloseIcon />
-          </button>
-        </div>
-        {filterCategories.map(renderFilterSection)}
-      </aside>
-    </>
+    <aside className={styles.sidebar} aria-label="Product filters">
+      {filterCategories.map(renderFilterSection)}
+    </aside>
   );
 }

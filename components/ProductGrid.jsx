@@ -6,6 +6,7 @@ import FilterSidebar from "./FilterSidebar";
 import styles from "../styles/ProductGrid.module.css";
 
 const FilterIcon = () => (
+  
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="4" y1="21" x2="4" y2="14" />
     <line x1="4" y1="10" x2="4" y2="3" />
@@ -90,6 +91,13 @@ export default function ProductGrid({ products }) {
           )}
         </div>
       </div>
+
+      {/* Mobile sidebar - always rendered for overlay to work */}
+      <FilterSidebar
+        isOpen={isFilterOpen}
+        onClose={() => setIsFilterOpen(false)}
+        isMobileOnly
+      />
     </section>
   );
 }
