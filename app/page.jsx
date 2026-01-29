@@ -22,6 +22,7 @@ async function getProducts() {
   }
 }
 
+
 function generateJsonLd(products) {
   if (!products || products.length === 0) return null;
 
